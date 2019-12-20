@@ -16,6 +16,13 @@ module ShopifyAPI
       end
     end
 
+    def total_inventory=(new_value)
+      raise(ShopifyAPI::ValidationException,
+        "'total_inventory' is deprecated - see https://help.shopify.com/en/api/guides/inventory-migration-guide",
+        ) unless Base.api_version < ApiVersion.find_version('2019-10')
+      super
+    end
+
     def collections
       CustomCollection.find(:all, :params => {:product_id => self.id})
     end
